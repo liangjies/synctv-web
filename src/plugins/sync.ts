@@ -309,6 +309,9 @@ export const newSyncPlugin = (
         // 空降
         art.on("seek", publishSeekDebounce);
 
+        // 兼容IOS全屏
+        art.on("video:seeking", publishSeekDebounce);
+        
         // 倍速
         art.on("video:ratechange", publishRate);
 
