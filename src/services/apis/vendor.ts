@@ -138,7 +138,7 @@ export const getAListBinds = useDefineApi<
     };
   },
   {
-    serverID: string;
+    serverId: string;
     host: string;
   }[]
 >({
@@ -167,7 +167,7 @@ export const getAListAccountInfo = useDefineApi<
   {
     headers: { Authorization: string };
     params: {
-      serverID: string;
+      serverId: string;
     };
   },
   {
@@ -190,6 +190,7 @@ export const getAListFileList = useDefineApi<
     headers: { Authorization: string };
     data: {
       path: string;
+      keyword: string;
     };
     params: {
       page: number;
@@ -224,7 +225,7 @@ export const getEmbyBinds = useDefineApi<
     };
   },
   {
-    serverID: string;
+    serverId: string;
     host: string;
   }[]
 >({
@@ -290,6 +291,7 @@ export const getEmbyFileList = useDefineApi<
     headers: { Authorization: string };
     data: {
       path: string;
+      keyword: string;
     };
     params: {
       page: number;

@@ -23,20 +23,21 @@ export const useMovieApi = (token: string, roomId: string) => {
   const pageSize = ref(10);
   const dynamic = ref(false);
 
-  const switchDir = async (id: string, subPath: string) => {
+  const switchDir = async (id: string, subPath?: string) => {
     return await getMovies(id, subPath);
   };
 
   // 获取影片列表
   const { state: movies, isLoading: moviesLoading, execute: reqMoviesApi } = moviesApi();
-  const getMovies = async (id?: string, subPath?: string) => {
+  const getMovies = async (id?: string, subPath?: string, keyword?: string) => {
     try {
       await reqMoviesApi({
         params: {
           page: currentPage.value,
           max: pageSize.value,
           subPath: subPath === undefined ? room.lastFolderSubPath : subPath,
-          id: id === undefined ? room.lastFolderId : id
+          id: id === undefined ? room.lastFolderId : id,
+          keyword: keyword
         },
         headers: {
           Authorization: token,
@@ -61,7 +62,8 @@ export const useMovieApi = (token: string, roomId: string) => {
   };
 
   // 获取正在播放的影片
-  const { state: currentMovie, execute: reqCurrentMovieApi } = currentMovieApi();
+  const { state: currentMovie, execute: reqCurrentMovieApi, isLoading: isLoadingCurrent } =
+    currentMovieApi();
   const getCurrentMovie = async () => {
     try {
       await reqCurrentMovieApi({
@@ -332,7 +334,7 @@ export const useMovieApi = (token: string, roomId: string) => {
 
     getCurrentMovie,
     currentMovie,
-
+    isLoadingCurrent,
     selectMovies,
     swapMovie,
 

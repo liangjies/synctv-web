@@ -12,8 +12,6 @@ import bilibiliParse from "@/components/cinema/dialogs/bilibiliParse.vue";
 import alist from "@/components/fileList/alist.vue";
 import emby from "@/components/fileList/emby.vue";
 
-const Emits = defineEmits(["getMovies"]);
-
 const customHeadersDialog = ref<InstanceType<typeof customHeaders>>();
 const customSubtitlesDialog = ref<InstanceType<typeof customSubtitles>>();
 const bilibiliParseDialog = ref<InstanceType<typeof bilibiliParse>>();
@@ -276,10 +274,8 @@ const selectPushType = () => {
   newMovieInfo.value.type = movieTypeRecords.get(selectedMovieType.value)?.defaultType || "";
 };
 
-const stringHeader = ref(JSON.stringify(newMovieInfo.value.headers));
-
-const updateHeaders = (header: { [key: string]: string }) => {
-  newMovieInfo.value.headers = header;
+const updateHeaders = (headers: { [key: string]: string }) => {
+  newMovieInfo.value.headers = headers;
 };
 
 const updateSubtitles = (
@@ -318,10 +314,6 @@ const pushMovie = async () => {
   }
 
   try {
-    console.log(stringHeader.value);
-    console.log(JSON.parse(stringHeader.value));
-
-    newMovieInfo.value.headers = JSON.parse(stringHeader.value);
     for (const key in newMovieInfo.value) {
       strLengthLimit(key, 32);
     }
@@ -338,7 +330,6 @@ const pushMovie = async () => {
       type: "success"
     });
     newMovieInfo.value.name = newMovieInfo.value.url = "";
-    Emits("getMovies");
   } catch (err: any) {
     console.log(err);
     ElNotification({
@@ -531,7 +522,7 @@ const getBiliBiliVendors = async () => {
   <!-- 自定义Header对话框 -->
   <customHeaders
     ref="customHeadersDialog"
-    :custom-header="newMovieInfo.headers"
+    :headers="newMovieInfo.headers"
     @updateHeaders="updateHeaders"
   />
 
